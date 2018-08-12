@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<crm_mon version="1.1.18">
+    <summary>
+        <stack type="corosync" />
+        <current_dc present="true" version="1.1.18-11.el7_5" name="lustre-oss1" id="1" with_quorum="true" />
+        <last_update time="Mon Jul  9 08:49:49 2018" />
+        <last_change time="Fri Jun 29 14:59:50 2018" user="root" client="cibadmin" origin="lustre-oss1" />
+        <nodes_configured number="2" expected_votes="unknown" />
+        <resources_configured number="20" disabled="0" blocked="0" />
+        <cluster_options stonith-enabled="true" symmetric-cluster="false" no-quorum-policy="ignore" maintenance-mode="false" />
+    </summary>
+    <nodes>
+        <node name="lustre-oss1" id="1" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="true" resources_running="9" type="member" />
+        <node name="lustre-oss2" id="2" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="false" resources_running="9" type="member" />
+    </nodes>
+    <resources>
+        <resource id="ost36" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss1" id="1" cached="false"/>
+        </resource>
+        <resource id="ost37" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss1" id="1" cached="false"/>
+        </resource>
+        <resource id="ost38" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss1" id="1" cached="false"/>
+        </resource>
+        <resource id="ost39" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss1" id="1" cached="false"/>
+        </resource>
+        <resource id="ost40" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss1" id="1" cached="false"/>
+        </resource>
+        <resource id="ost41" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss1" id="1" cached="false"/>
+        </resource>
+        <resource id="ost42" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss2" id="2" cached="false"/>
+        </resource>
+        <resource id="ost43" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss2" id="2" cached="false"/>
+        </resource>
+        <resource id="ost44" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss2" id="2" cached="false"/>
+        </resource>
+        <resource id="ost45" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss2" id="2" cached="false"/>
+        </resource>
+        <resource id="ost46" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss2" id="2" cached="false"/>
+        </resource>
+        <resource id="ost47" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-oss2" id="2" cached="false"/>
+        </resource>
+        <clone id="ping-lnet-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="ping-lnet" resource_agent="ocf::agent:health-lnet" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-oss1" id="1" cached="false"/>
+            </resource>
+            <resource id="ping-lnet" resource_agent="ocf::agent:health-lnet" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-oss2" id="2" cached="false"/>
+            </resource>
+        </clone>
+        <clone id="ping-lustre-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="ping-lustre" resource_agent="ocf::agent:health-lustre" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-oss1" id="1" cached="false"/>
+            </resource>
+            <resource id="ping-lustre" resource_agent="ocf::agent:health-lustre" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-oss2" id="2" cached="false"/>
+            </resource>
+        </clone>
+        <clone id="watchdog-osb1-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="watchdog-osb1" resource_agent="ocf::agent:ipmi-watchdog" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-oss1" id="1" cached="false"/>
+            </resource>
+            <resource id="watchdog-osb1" resource_agent="ocf::agent:ipmi-watchdog" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-oss2" id="2" cached="false"/>
+            </resource>
+        </clone>
+    </resources>
+    <node_attributes>
+        <node name="lustre-oss1">
+            <attribute name="ping-lnet" value="3360" />
+            <attribute name="ping-lustre" value="1" />
+        </node>
+        <node name="lustre-oss2">
+            <attribute name="ping-lnet" value="3360" />
+            <attribute name="ping-lustre" value="1" />
+        </node>
+    </node_attributes>
+    <node_history>
+        <node name="lustre-oss1">
+            <resource_history id="watchdog-osb1" orphan="false" migration-threshold="4">
+                <operation_history call="73" task="start" last-rc-change="Fri Jun 29 14:28:25 2018" last-run="Fri Jun 29 14:28:25 2018" exec-time="173ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="77" task="monitor" interval="75000ms" last-rc-change="Fri Jun 29 14:28:25 2018" exec-time="46ms" queue-time="1ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lnet" orphan="false" migration-threshold="4">
+                <operation_history call="70" task="start" last-rc-change="Fri Jun 29 14:28:25 2018" last-run="Fri Jun 29 14:28:25 2018" exec-time="160ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="74" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 14:28:25 2018" exec-time="148ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost40" orphan="false" migration-threshold="4">
+                <operation_history call="83" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="1171ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="85" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:00:35 2018" exec-time="4144ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost41" orphan="false" migration-threshold="4">
+                <operation_history call="84" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="1524ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="86" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:00:36 2018" exec-time="3779ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost36" orphan="false" migration-threshold="4">
+                <operation_history call="78" task="start" last-rc-change="Fri Jun 29 14:59:42 2018" last-run="Fri Jun 29 14:59:42 2018" exec-time="51696ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="79" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:00:34 2018" exec-time="3977ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost37" orphan="false" migration-threshold="4">
+                <operation_history call="80" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="2242ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="88" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:00:36 2018" exec-time="3073ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost38" orphan="false" migration-threshold="4">
+                <operation_history call="81" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="1872ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="87" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:00:36 2018" exec-time="3450ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost39" orphan="false" migration-threshold="4">
+                <operation_history call="82" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="2601ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="89" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:00:37 2018" exec-time="2852ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="stonith-osb1" orphan="false" migration-threshold="4" fail-count="1000000" last-failure="Mon Jul  9 08:30:37 2018">
+                <operation_history call="76" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:28:25 2018" exec-time="145ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="158" task="start" last-rc-change="Mon Jul  9 08:30:36 2018" last-run="Mon Jul  9 08:30:36 2018" exec-time="1348ms" queue-time="1ms" rc="1" rc_text="unknown error" />
+                <operation_history call="159" task="stop" last-rc-change="Mon Jul  9 08:30:38 2018" last-run="Mon Jul  9 08:30:38 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lustre" orphan="false" migration-threshold="4">
+                <operation_history call="71" task="start" last-rc-change="Fri Jun 29 14:28:25 2018" last-run="Fri Jun 29 14:28:25 2018" exec-time="61ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="75" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:28:25 2018" exec-time="33ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="lustre-oss2">
+            <resource_history id="ost42" orphan="false" migration-threshold="4">
+                <operation_history call="78" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="32654ms" queue-time="1ms" rc="0" rc_text="ok" />
+                <operation_history call="87" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:01:07 2018" exec-time="2899ms" queue-time="1ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost43" orphan="false" migration-threshold="4">
+                <operation_history call="79" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="31788ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="85" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:01:06 2018" exec-time="3783ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost44" orphan="false" migration-threshold="4">
+                <operation_history call="80" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="31504ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="84" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:01:06 2018" exec-time="4064ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost45" orphan="false" migration-threshold="4">
+                <operation_history call="81" task="start" last-rc-change="Fri Jun 29 15:00:34 2018" last-run="Fri Jun 29 15:00:34 2018" exec-time="32224ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="86" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:01:06 2018" exec-time="3336ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost46" orphan="false" migration-threshold="4">
+                <operation_history call="82" task="start" last-rc-change="Fri Jun 29 15:00:38 2018" last-run="Fri Jun 29 15:00:38 2018" exec-time="29028ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="88" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:01:07 2018" exec-time="1275ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ost47" orphan="false" migration-threshold="4">
+                <operation_history call="83" task="start" last-rc-change="Fri Jun 29 15:00:39 2018" last-run="Fri Jun 29 15:00:39 2018" exec-time="28136ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="89" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:01:07 2018" exec-time="2190ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lnet" orphan="false" migration-threshold="4">
+                <operation_history call="70" task="start" last-rc-change="Fri Jun 29 14:31:16 2018" last-run="Fri Jun 29 14:31:16 2018" exec-time="158ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="74" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 14:31:16 2018" exec-time="156ms" queue-time="1ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lustre" orphan="false" migration-threshold="4">
+                <operation_history call="71" task="start" last-rc-change="Fri Jun 29 14:31:16 2018" last-run="Fri Jun 29 14:31:16 2018" exec-time="59ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="75" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:31:16 2018" exec-time="37ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="stonith-osb1" orphan="false" migration-threshold="4" fail-count="1000000" last-failure="Mon Jul  9 08:26:35 2018">
+                <operation_history call="76" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:31:16 2018" exec-time="164ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="156" task="start" last-rc-change="Mon Jul  9 08:26:34 2018" last-run="Mon Jul  9 08:26:34 2018" exec-time="1287ms" queue-time="0ms" rc="1" rc_text="unknown error" />
+                <operation_history call="157" task="stop" last-rc-change="Mon Jul  9 08:26:35 2018" last-run="Mon Jul  9 08:26:35 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="watchdog-osb1" orphan="false" migration-threshold="4">
+                <operation_history call="73" task="start" last-rc-change="Fri Jun 29 14:31:16 2018" last-run="Fri Jun 29 14:31:16 2018" exec-time="112ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="77" task="monitor" interval="75000ms" last-rc-change="Fri Jun 29 14:31:16 2018" exec-time="50ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+    </node_history>
+    <failures>
+        <failure op_key="stonith-osb1_start_0" node="lustre-oss1" exitstatus="unknown error" exitreason="" exitcode="1" call="158" status="Error" last-rc-change="Mon Jul  9 08:30:36 2018" queued="1" exec="1348" interval="0" task="start" />
+        <failure op_key="stonith-osb1_start_0" node="lustre-oss2" exitstatus="unknown error" exitreason="" exitcode="1" call="156" status="Error" last-rc-change="Mon Jul  9 08:26:34 2018" queued="0" exec="1287" interval="0" task="start" />
+    </failures>
+    <tickets>
+    </tickets>
+    <bans>
+    </bans>
+</crm_mon>

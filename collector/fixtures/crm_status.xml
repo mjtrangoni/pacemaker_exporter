@@ -1,0 +1,320 @@
+<?xml version="1.0"?>
+<crm_mon version="1.1.18">
+    <summary>
+        <stack type="corosync" />
+        <current_dc present="true" version="1.1.18-11.el7_5.2-2b07d5c5a9" name="lustre-mds1" id="1" with_quorum="true" />
+        <last_update time="Fri Jun 29 16:27:35 2018" />
+        <last_change time="Fri Jun 29 15:40:44 2018" user="root" client="cibadmin" origin="lustre-mds1" />
+        <nodes_configured number="2" expected_votes="unknown" />
+        <resources_configured number="28" disabled="0" blocked="0" />
+        <cluster_options stonith-enabled="true" symmetric-cluster="false" no-quorum-policy="ignore" maintenance-mode="false" />
+    </summary>
+    <nodes>
+        <node name="lustre-mds1" id="1" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="true" resources_running="6" type="member" />
+        <node name="lustre-mds2" id="2" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="false" resources_running="22" type="member" />
+    </nodes>
+    <resources>
+        <resource id="lustre-mdt" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-mds1" id="1" cached="false"/>
+        </resource>
+        <resource id="lustre-mgs" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="lustre-mds2" id="2" cached="false"/>
+        </resource>
+        <group id="apache" number_resources="2" >
+             <resource id="apache-state" resource_agent="ocf::agent:Filesystem" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="apache-daemon" resource_agent="systemd:httpd" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+        </group>
+        <group id="failover" number_resources="3" >
+             <resource id="failover-fs" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="failover-ip" resource_agent="ocf::heartbeat:IPaddr2" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="failover-route" resource_agent="ocf::agent:iproute2nd" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+        </group>
+        <group id="gmetad" number_resources="4" >
+             <resource id="gmetad-state" resource_agent="ocf::agent:Filesystem" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="gmetad-rrdcached" resource_agent="systemd:rrdcached" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="gmetad-daemon" resource_agent="systemd:gmetad" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="gmetad-cmetricd" resource_agent="systemd:cmetricd@ha" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+        </group>
+        <group id="lustre-daemon" number_resources="2" >
+             <resource id="lustre-daemon-state" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="lustre-daemon-daemon" resource_agent="systemd:lustre-daemon" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+        </group>
+        <group id="mysql" number_resources="2" >
+             <resource id="mysql-state" resource_agent="ocf::agent:Filesystem" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="mysql-daemon" resource_agent="ocf::heartbeat:mysql" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+        </group>
+        <group id="nagios" number_resources="3" >
+             <resource id="nagios-state" resource_agent="ocf::agent:Filesystem" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="nagios-zeromqd" resource_agent="systemd:nagios-zeromqd" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+             <resource id="nagios-daemon" resource_agent="systemd:nagios" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                 <node name="lustre-mds2" id="2" cached="false"/>
+             </resource>
+        </group>
+        <clone id="lustreclient-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" target_role="Started" >
+            <resource id="lustreclient" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds1" id="1" cached="false"/>
+            </resource>
+            <resource id="lustreclient" resource_agent="ocf::agent:Filesystem" role="Started" target_role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds2" id="2" cached="false"/>
+            </resource>
+        </clone>
+        <clone id="ping-lnet-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="ping-lnet" resource_agent="ocf::agent:health-lnet" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds1" id="1" cached="false"/>
+            </resource>
+            <resource id="ping-lnet" resource_agent="ocf::agent:health-lnet" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds2" id="2" cached="false"/>
+            </resource>
+        </clone>
+        <clone id="ping-lustre-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="ping-lustre" resource_agent="ocf::agent:health-lustre" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds1" id="1" cached="false"/>
+            </resource>
+            <resource id="ping-lustre" resource_agent="ocf::agent:health-lustre" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds2" id="2" cached="false"/>
+            </resource>
+        </clone>
+        <clone id="stonith-mdb-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="stonith-mdb" resource_agent="stonith:fence_cpower" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds1" id="1" cached="false"/>
+            </resource>
+            <resource id="stonith-mdb" resource_agent="stonith:fence_cpower" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds2" id="2" cached="false"/>
+            </resource>
+        </clone>
+        <clone id="watchdog-mdb-clone" multi_state="false" unique="false" managed="true" failed="false" failure_ignored="false" >
+            <resource id="watchdog-mdb" resource_agent="ocf::agent:ipmi-watchdog" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds1" id="1" cached="false"/>
+            </resource>
+            <resource id="watchdog-mdb" resource_agent="ocf::agent:ipmi-watchdog" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                <node name="lustre-mds2" id="2" cached="false"/>
+            </resource>
+        </clone>
+    </resources>
+    <node_attributes>
+        <node name="lustre-mds1">
+            <attribute name="ping-lnet" value="3360" />
+            <attribute name="ping-lustre" value="1" />
+        </node>
+        <node name="lustre-mds2">
+            <attribute name="ping-lnet" value="3360" />
+            <attribute name="ping-lustre" value="1" />
+        </node>
+    </node_attributes>
+    <node_history>
+        <node name="lustre-mds1">
+            <resource_history id="gmetad-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="126" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:59 2018" exec-time="1ms" queue-time="1ms" rc="0" rc_text="ok" />
+                <operation_history call="152" task="stop" last-rc-change="Fri Jun 29 15:07:06 2018" last-run="Fri Jun 29 15:07:06 2018" exec-time="2088ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="apache-state" orphan="false" migration-threshold="4">
+                <operation_history call="115" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:55 2018" exec-time="48ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="166" task="stop" last-rc-change="Fri Jun 29 15:07:11 2018" last-run="Fri Jun 29 15:07:11 2018" exec-time="521ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="gmetad-rrdcached" orphan="false" migration-threshold="4">
+                <operation_history call="124" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:57 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="156" task="stop" last-rc-change="Fri Jun 29 15:07:08 2018" last-run="Fri Jun 29 15:07:08 2018" exec-time="2084ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="mysql-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="129" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:58:01 2018" exec-time="83ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="162" task="stop" last-rc-change="Fri Jun 29 15:07:09 2018" last-run="Fri Jun 29 15:07:09 2018" exec-time="4133ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="mysql-state" orphan="false" migration-threshold="4">
+                <operation_history call="121" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:55 2018" exec-time="47ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="170" task="stop" last-rc-change="Fri Jun 29 15:07:13 2018" last-run="Fri Jun 29 15:07:13 2018" exec-time="122ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustre-daemon-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="137" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:58:09 2018" exec-time="2ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="148" task="stop" last-rc-change="Fri Jun 29 15:07:04 2018" last-run="Fri Jun 29 15:07:04 2018" exec-time="8169ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustreclient" orphan="false" migration-threshold="4">
+                <operation_history call="141" task="start" last-rc-change="Fri Jun 29 14:59:51 2018" last-run="Fri Jun 29 14:59:51 2018" exec-time="325339ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="142" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 15:05:16 2018" exec-time="57ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="apache-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="123" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:57 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="160" task="stop" last-rc-change="Fri Jun 29 15:07:09 2018" last-run="Fri Jun 29 15:07:09 2018" exec-time="2068ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lnet" orphan="false" migration-threshold="4">
+                <operation_history call="100" task="start" last-rc-change="Fri Jun 29 14:57:50 2018" last-run="Fri Jun 29 14:57:50 2018" exec-time="149ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="106" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 14:57:51 2018" exec-time="142ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="nagios-state" orphan="false" migration-threshold="4">
+                <operation_history call="131" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:58:01 2018" exec-time="42ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="158" task="stop" last-rc-change="Fri Jun 29 15:07:08 2018" last-run="Fri Jun 29 15:07:08 2018" exec-time="105ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustre-mgs" orphan="false" migration-threshold="4">
+                <operation_history call="138" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:58:10 2018" exec-time="4690ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="144" task="stop" last-rc-change="Fri Jun 29 15:07:04 2018" last-run="Fri Jun 29 15:07:04 2018" exec-time="7319ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="gmetad-state" orphan="false" migration-threshold="4">
+                <operation_history call="119" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:55 2018" exec-time="46ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="164" task="stop" last-rc-change="Fri Jun 29 15:07:10 2018" last-run="Fri Jun 29 15:07:10 2018" exec-time="122ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="stonith-mdb" orphan="false" migration-threshold="4">
+                <operation_history call="102" task="start" last-rc-change="Fri Jun 29 14:57:50 2018" last-run="Fri Jun 29 14:57:50 2018" exec-time="160ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="108" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:51 2018" exec-time="147ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lustre" orphan="false" migration-threshold="4">
+                <operation_history call="101" task="start" last-rc-change="Fri Jun 29 14:57:50 2018" last-run="Fri Jun 29 14:57:50 2018" exec-time="34ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="107" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:51 2018" exec-time="32ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="watchdog-mdb" orphan="false" migration-threshold="4">
+                <operation_history call="103" task="start" last-rc-change="Fri Jun 29 14:57:50 2018" last-run="Fri Jun 29 14:57:50 2018" exec-time="95ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="109" task="monitor" interval="75000ms" last-rc-change="Fri Jun 29 14:57:51 2018" exec-time="47ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="gmetad-cmetricd" orphan="false" migration-threshold="4">
+                <operation_history call="128" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:58:01 2018" exec-time="2ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="146" task="stop" last-rc-change="Fri Jun 29 15:07:04 2018" last-run="Fri Jun 29 15:07:04 2018" exec-time="2065ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="failover-route" orphan="false" migration-threshold="4">
+                <operation_history call="171" task="stop" last-rc-change="Fri Jun 29 15:07:13 2018" last-run="Fri Jun 29 15:07:13 2018" exec-time="42ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustre-mdt" orphan="false" migration-threshold="4">
+                <operation_history call="139" task="start" last-rc-change="Fri Jun 29 14:58:16 2018" last-run="Fri Jun 29 14:58:16 2018" exec-time="52580ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="140" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:59:08 2018" exec-time="2818ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="failover-ip" orphan="false" migration-threshold="4">
+                <operation_history call="172" task="stop" last-rc-change="Fri Jun 29 15:07:13 2018" last-run="Fri Jun 29 15:07:13 2018" exec-time="76ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustre-daemon-state" orphan="false" migration-threshold="4">
+                <operation_history call="117" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:55 2018" exec-time="43ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="168" task="stop" last-rc-change="Fri Jun 29 15:07:12 2018" last-run="Fri Jun 29 15:07:12 2018" exec-time="113ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="nagios-zeromqd" orphan="false" migration-threshold="4">
+                <operation_history call="133" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 14:58:03 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="154" task="stop" last-rc-change="Fri Jun 29 15:07:06 2018" last-run="Fri Jun 29 15:07:06 2018" exec-time="2068ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="failover-fs" orphan="false" migration-threshold="4">
+                <operation_history call="104" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 14:57:51 2018" exec-time="52ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="174" task="stop" last-rc-change="Fri Jun 29 15:07:13 2018" last-run="Fri Jun 29 15:07:13 2018" exec-time="136ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="nagios-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="135" task="monitor" interval="90000ms" last-rc-change="Fri Jun 29 14:58:06 2018" exec-time="1ms" queue-time="1ms" rc="0" rc_text="ok" />
+                <operation_history call="150" task="stop" last-rc-change="Fri Jun 29 15:07:04 2018" last-run="Fri Jun 29 15:07:04 2018" exec-time="2177ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="lustre-mds2">
+            <resource_history id="lustre-mgs" orphan="false" migration-threshold="4">
+                <operation_history call="109" task="start" last-rc-change="Fri Jun 29 15:07:11 2018" last-run="Fri Jun 29 15:07:11 2018" exec-time="849ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="110" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:12 2018" exec-time="4744ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="apache-state" orphan="false" migration-threshold="4">
+                <operation_history call="118" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="70ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="121" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:17 2018" exec-time="49ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="apache-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="122" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="2060ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="127" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:20 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="failover-fs" orphan="false" migration-threshold="4">
+                <operation_history call="111" task="start" last-rc-change="Fri Jun 29 15:07:13 2018" last-run="Fri Jun 29 15:07:13 2018" exec-time="122ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="112" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:13 2018" exec-time="68ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="failover-ip" orphan="false" migration-threshold="4">
+                <operation_history call="113" task="start" last-rc-change="Fri Jun 29 15:07:13 2018" last-run="Fri Jun 29 15:07:13 2018" exec-time="4116ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="failover-route" orphan="false" migration-threshold="4">
+                <operation_history call="114" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="62ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="gmetad-state" orphan="false" migration-threshold="4">
+                <operation_history call="115" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="74ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="125" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:17 2018" exec-time="48ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="gmetad-rrdcached" orphan="false" migration-threshold="4">
+                <operation_history call="126" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="2163ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="128" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:20 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="gmetad-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="129" task="start" last-rc-change="Fri Jun 29 15:07:20 2018" last-run="Fri Jun 29 15:07:20 2018" exec-time="2085ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="130" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:22 2018" exec-time="2ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="gmetad-cmetricd" orphan="false" migration-threshold="4">
+                <operation_history call="131" task="start" last-rc-change="Fri Jun 29 15:07:22 2018" last-run="Fri Jun 29 15:07:22 2018" exec-time="2075ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="132" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:24 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustre-daemon-state" orphan="false" migration-threshold="4">
+                <operation_history call="116" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="73ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="123" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:17 2018" exec-time="47ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustre-daemon-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="124" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="14131ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="140" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:32 2018" exec-time="2ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="mysql-state" orphan="false" migration-threshold="4">
+                <operation_history call="117" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="71ms" queue-time="1ms" rc="0" rc_text="ok" />
+                <operation_history call="119" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:17 2018" exec-time="46ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="mysql-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="120" task="start" last-rc-change="Fri Jun 29 15:07:17 2018" last-run="Fri Jun 29 15:07:17 2018" exec-time="6390ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="133" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:24 2018" exec-time="90ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="nagios-state" orphan="false" migration-threshold="4">
+                <operation_history call="134" task="start" last-rc-change="Fri Jun 29 15:07:24 2018" last-run="Fri Jun 29 15:07:24 2018" exec-time="68ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="135" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:07:24 2018" exec-time="47ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="nagios-zeromqd" orphan="false" migration-threshold="4">
+                <operation_history call="136" task="start" last-rc-change="Fri Jun 29 15:07:24 2018" last-run="Fri Jun 29 15:07:24 2018" exec-time="2061ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="137" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 15:07:26 2018" exec-time="2ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="nagios-daemon" orphan="false" migration-threshold="4">
+                <operation_history call="138" task="start" last-rc-change="Fri Jun 29 15:07:26 2018" last-run="Fri Jun 29 15:07:26 2018" exec-time="2086ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="139" task="monitor" interval="90000ms" last-rc-change="Fri Jun 29 15:07:28 2018" exec-time="1ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lnet" orphan="false" migration-threshold="4">
+                <operation_history call="100" task="start" last-rc-change="Fri Jun 29 15:06:01 2018" last-run="Fri Jun 29 15:06:01 2018" exec-time="142ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="104" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 15:06:39 2018" exec-time="154ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ping-lustre" orphan="false" migration-threshold="4">
+                <operation_history call="101" task="start" last-rc-change="Fri Jun 29 15:06:01 2018" last-run="Fri Jun 29 15:06:01 2018" exec-time="120ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="105" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:06:39 2018" exec-time="38ms" queue-time="1ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="stonith-mdb" orphan="false" migration-threshold="4">
+                <operation_history call="102" task="start" last-rc-change="Fri Jun 29 15:06:01 2018" last-run="Fri Jun 29 15:06:01 2018" exec-time="739ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="106" task="monitor" interval="60000ms" last-rc-change="Fri Jun 29 15:06:39 2018" exec-time="163ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="watchdog-mdb" orphan="false" migration-threshold="4">
+                <operation_history call="103" task="start" last-rc-change="Fri Jun 29 15:06:01 2018" last-run="Fri Jun 29 15:06:01 2018" exec-time="139ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="107" task="monitor" interval="75000ms" last-rc-change="Fri Jun 29 15:06:39 2018" exec-time="56ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="lustreclient" orphan="false" migration-threshold="4">
+                <operation_history call="147" task="start" last-rc-change="Fri Jun 29 15:10:38 2018" last-run="Fri Jun 29 15:10:38 2018" exec-time="291ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="148" task="monitor" interval="120000ms" last-rc-change="Fri Jun 29 15:10:38 2018" exec-time="59ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+    </node_history>
+    <tickets>
+    </tickets>
+    <bans>
+    </bans>
+</crm_mon>
