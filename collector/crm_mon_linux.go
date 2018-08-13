@@ -17,7 +17,6 @@ package collector
 import (
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
@@ -54,14 +53,7 @@ func parseCrmMonXML(data []byte) (CrmMonStruct, error) {
 
 // getCrmMonInfo returns crm_mon information
 func (c *crmMonCollector) getCrmMonInfo(ch chan<- prometheus.Metric) error {
-	//outBytes, err := crmMonExec("-X")
-	//if err != nil {
-	//	log.Errorln(err)
-	//	return err
-	//}
-
-	//TODO: for testing
-	outBytes, err := ioutil.ReadFile("collector/fixtures/crm_status_failed.xml")
+	outBytes, err := crmMonExec("-X")
 	if err != nil {
 		log.Errorln(err)
 		return err
@@ -121,16 +113,6 @@ func (c *crmMonCollector) getCrmMonInfo(ch chan<- prometheus.Metric) error {
 		}
 	}
 
-	// Failures metrics
-	ch <- prometheus.MustNewConstMetric(c.crmMonFailuresCount,
-		prometheus.GaugeValue, float64(len(crmMonStruct.Failures.Failure)),
-		crmMonStruct.Summary.CurrentDC.Name)
-
-	for _, failure := range crmMonStruct.Failures.Failure {
-		ch <- prometheus.MustNewConstMetric(c.crmMonFailureDescription,
-			prometheus.GaugeValue, 1.0,
-			failure.Node, failure.OpKey, failure.Status, failure.Task)
-	}
 	return nil
 }
 
