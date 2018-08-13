@@ -289,11 +289,6 @@ func NewCrmMonCollector() (Collector, error) {
 			"Metric with a constant '1' value labeled by the failure description.",
 			[]string{"node", "op_key", "status", "task"}, nil,
 		),
-		//    <failures>
-		//        <failure op_key="stonith-osb1_start_0" node="lustre-oss1" exitstatus="unknown error" exitreason="" exitcode="1" call="158" status="Error" last-rc-change="Mon Jul  9 08:30:36 2018" queued="1" exec="1348" interval="0" task="start" />
-		//        <failure op_key="stonith-osb1_start_0" node="lustre-oss2" exitstatus="unknown error" exitreason="" exitcode="1" call="156" status="Error" last-rc-change="Mon Jul  9 08:26:34 2018" queued="0" exec="1287" interval="0" task="start" />
-		//    </failures>
-
 	}, nil
 }
 
@@ -302,7 +297,7 @@ func NewCrmMonCollector() (Collector, error) {
 func (c *crmMonCollector) Update(ch chan<- prometheus.Metric) error {
 	err := c.getCrmMonInfo(ch)
 	if err != nil {
-		return fmt.Errorf("couldn't get crm_mon version information: %s", err)
+		return fmt.Errorf("couldn't get crm_mon information: %s", err)
 	}
 	return nil
 }
