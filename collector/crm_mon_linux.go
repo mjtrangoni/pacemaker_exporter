@@ -330,8 +330,8 @@ func (c *crmMonCollector) exposeNodeAttributes(ch chan<- prometheus.Metric, node
 	for _, node := range nodeAttrStruct.Node {
 		for _, attribute := range node.Attribute {
 			ch <- prometheus.MustNewConstMetric(c.crmMonNodeAttribute,
-				prometheus.GaugeValue, attribute.Value, node.Name,
-				attribute.Name)
+				prometheus.GaugeValue, 1.0, node.Name,
+				attribute.Name, attribute.Value)
 		}
 	}
 	return nil

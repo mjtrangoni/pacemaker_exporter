@@ -109,8 +109,9 @@ type NodeAttrStruct struct {
 	Node []struct {
 		Name      string `xml:"name,attr"`
 		Attribute []struct {
-			Name  string  `xml:"name,attr"`
-			Value float64 `xml:"value,attr"`
+			Name string `xml:"name,attr"`
+			// Value can be everything, not only a number.
+			Value string `xml:"value,attr"`
 		} `xml:"attribute"`
 	} `xml:"node"`
 }

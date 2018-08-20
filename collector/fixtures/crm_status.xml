@@ -125,6 +125,11 @@
         <node name="lustre-mds1">
             <attribute name="ping-lnet" value="3360" />
             <attribute name="ping-lustre" value="1" />
+            <attribute name="hana_prd_clone_state" value="PROMOTED" />
+            <attribute name="hana_prd_op_mode" value="logreplay" />
+            <attribute name="hana_prd_remoteHost" value="yhbmhdbprd02" />
+            <attribute name="hana_prd_roles" value="4:P:master1:master:worker:master" />
+            <attribute name="hana_prd_site" value="SiteA" />
         </node>
         <node name="lustre-mds2">
             <attribute name="ping-lnet" value="3360" />

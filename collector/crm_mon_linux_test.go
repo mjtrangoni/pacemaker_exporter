@@ -39,6 +39,26 @@ func TestParseCrmMonXML(t *testing.T) {
 		t.Fatalf("summary stack type : %v!=corosync",
 			dataStr.Summary.Stack.Type)
 	}
+
+	// Check some node attributes values.
+	for _, node := range dataStr.NodeAttributes.Node {
+		if node.Name == "lustre-mds1" {
+			for _, attr := range node.Attribute {
+				if attr.Name == "ping-lnet" {
+					if attr.Value != "3360" {
+						t.Fatalf("node-attribute '%s' value: %v!=3360",
+							attr.Name, attr.Value)
+					}
+				} else if attr.Name == "hana_prd_roles" {
+					if attr.Value != "4:P:master1:master:worker:master" {
+						t.Fatalf("node-attribute '%s' value: %v!=4:P:master1:master:worker:master",
+							attr.Name, attr.Value)
+					}
+				}
+			}
+		}
+	}
+
 }
 
 func TestParseCrmMonXMLFailed(t *testing.T) {

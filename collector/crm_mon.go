@@ -196,8 +196,8 @@ func NewCrmMonCollector() (Collector, error) {
 		// Node Attributes section metrics
 		crmMonNodeAttribute: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "node", "attribute"),
-			"Node attribute value.",
-			[]string{"name", "attribute"}, nil,
+			"Node attribute with a constant '1' value labeled by name, attribute, and its value.",
+			[]string{"name", "attribute", "value"}, nil,
 		),
 		// Node Resources Resource metrics
 		crmMonResourceActive: prometheus.NewDesc(
