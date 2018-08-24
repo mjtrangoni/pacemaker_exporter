@@ -27,6 +27,7 @@ $ make
 ```
 $ ./pacemaker_exporter <flags>
 ```
+Note: Please run it as *root* user, otherwise `crm_mon` will be failing.
 
 ## Endpoints
 
