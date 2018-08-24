@@ -140,8 +140,8 @@ func NewCrmMonCollector() (Collector, error) {
 		// Nodes section metrics
 		crmMonNodeID: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "node", "id"),
-			"Node ID.",
-			[]string{"name", "type"}, nil,
+			"A metric with a constant '1' value labeled by node name, type, and node ID.",
+			[]string{"name", "type", "id"}, nil,
 		),
 		crmMonNodeOnline: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "node", "online"),

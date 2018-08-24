@@ -255,7 +255,7 @@ func (c *crmMonCollector) exposeSummary(ch chan<- prometheus.Metric, summaryStru
 func (c *crmMonCollector) exposeNodes(ch chan<- prometheus.Metric, nodesStruct NodesStruct) error {
 	for _, node := range nodesStruct.Node {
 		ch <- prometheus.MustNewConstMetric(c.crmMonNodeID,
-			prometheus.GaugeValue, node.ID, node.Name, node.Type)
+			prometheus.GaugeValue, 1.0, node.Name, node.Type, node.ID)
 		if node.Online {
 			ch <- prometheus.MustNewConstMetric(c.crmMonNodeOnline,
 				prometheus.GaugeValue, 1.0, node.Name)

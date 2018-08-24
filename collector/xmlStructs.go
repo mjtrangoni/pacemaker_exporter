@@ -70,7 +70,7 @@ type SummaryStruct struct {
 type NodesStruct struct {
 	Node []struct {
 		Name             string  `xml:"name,attr"`
-		ID               float64 `xml:"id,attr"`
+		ID               string  `xml:"id,attr"`
 		Online           bool    `xml:"online,attr"`
 		Standby          bool    `xml:"standby,attr"`
 		StandbyOnFail    bool    `xml:"standby_onfail,attr"`
