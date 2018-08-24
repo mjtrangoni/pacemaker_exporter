@@ -321,5 +321,7 @@
     <tickets>
     </tickets>
     <bans>
+        <ban id="location-ipmilan-for-lustre-mds2-lustre-mds1--INFINITY" resource="ipmilan-for-lustre-mds2" node=" lustre-mds1" weight="-1000000" master_only="false" />
+        <ban id="location-ipmilan-for-lustre-mds1-lustre-mds1--INFINITY" resource="ipmilan-for-lustre-mds1" node=" lustre-mds1" weight="-1000000" master_only="false" />
     </bans>
 </crm_mon>
