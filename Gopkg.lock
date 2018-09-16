@@ -29,12 +29,12 @@
   revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
 
 [[projects]]
-  digest = "1:15042ad3498153684d09f393bbaec6b216c8eec6d61f63dff711de7d64ed8861"
+  digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   pruneopts = "UT"
-  revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
-  version = "v1.1.0"
+  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
 
 [[projects]]
   digest = "1:ff5ebae34cfbf047d505ee150de27e60570e8c394b3b8fdbb720ff6ac71985fc"
@@ -46,14 +46,15 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:faca268f8df2618ebe169e650ee6d0b05d03f4859e09178d76dfb003682f859d"
+  digest = "1:5a240a28f4273d9b55eaba63bfb39d4597439a296301133c88154313b2886b17"
   name = "github.com/prometheus/client_golang"
   packages = [
     "prometheus",
+    "prometheus/internal",
     "prometheus/promhttp",
   ]
   pruneopts = "UT"
-  revision = "420e2efa8fb00cb997efcac409d1af4b33161573"
+  revision = "b7b390014bf2ea0679a8e477638afa1b706cbd70"
 
 [[projects]]
   branch = "master"
@@ -104,11 +105,11 @@
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "f027049dab0ad238e394a753dba2d14753473a04"
+  revision = "0e37d006457bf46f9e6692014ba72ef82c33022c"
 
 [[projects]]
   branch = "master"
-  digest = "1:20ec4497f9042ace5b5bfb187e09aab37414941d8e6acfbdba09f1349f66ddbe"
+  digest = "1:76d0f2d93808edb885470a33b306d7295aebb49801e200945b3ddf8276ee48f4"
   name = "golang.org/x/sys"
   packages = [
     "unix",
@@ -117,7 +118,7 @@
     "windows/svc/eventlog",
   ]
   pruneopts = "UT"
-  revision = "acbc56fc7007d2a01796d5bde54f39e3b3e95945"
+  revision = "d0be0721c37eeb5299f245a996a483160fc36940"
 
 [[projects]]
   digest = "1:c06d9e11d955af78ac3bbb26bd02e01d2f61f689e1a3bce2ef6fb683ef8a7f2d"
