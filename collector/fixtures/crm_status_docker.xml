@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<crm_mon version="1.1.18">
+    <summary>
+        <stack type="corosync" />
+        <current_dc present="true" version="1.1.18-11.el7_5.3-2b07d5c5a9" name="host02" id="2" with_quorum="true" />
+        <last_update time="Fri Aug 24 03:50:09 2018" />
+        <last_change time="Thu Aug 23 15:28:56 2018" user="root" client="cibadmin" origin="host01" />
+        <nodes_configured number="15" expected_votes="unknown" />
+        <resources_configured number="48" disabled="0" blocked="0" />
+        <cluster_options stonith-enabled="false" symmetric-cluster="true" no-quorum-policy="stop" maintenance-mode="false" />
+    </summary>
+    <nodes>
+        <node name="host01" id="1" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="false" resources_running="10" type="member" />
+        <node name="host02" id="2" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="true" resources_running="14" type="member" />
+        <node name="host03" id="3" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="false" resources_running="12" type="member" />
+        <node name="redis-bundle-0" id="redis-bundle-0" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="false" is_dc="false" resources_running="1" type="remote" id_as_resource="redis-bundle-docker-0" />
+        <node name="redis-bundle-1" id="redis-bundle-1" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="false" is_dc="false" resources_running="1" type="remote" id_as_resource="redis-bundle-docker-1" />
+        <node name="redis-bundle-2" id="redis-bundle-2" online="true" standby="false" standby_onfail="false" maintenance="false" pending="false" unclean="false" shutdown="false" expected_up="false" is_dc="false" resources_running="1" type="remote" id_as_resource="redis-bundle-docker-2" />
+    </nodes>
+    <resources>
+        <bundle id="redis-bundle" type="docker" image="containers-redis:pcmklatest" unique="false" managed="true" failed="false" >
+            <replica id="0">
+                <resource id="redis" resource_agent="ocf::heartbeat:redis" role="Master" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="redis-bundle-0" id="redis-bundle-0" cached="false"/>
+                </resource>
+                <resource id="redis-bundle-docker-0" resource_agent="ocf::heartbeat:docker" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host02" id="2" cached="false"/>
+                </resource>
+                <resource id="redis-bundle-0" resource_agent="ocf::pacemaker:remote" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host02" id="2" cached="false"/>
+                </resource>
+            </replica>
+            <replica id="1">
+                <resource id="redis" resource_agent="ocf::heartbeat:redis" role="Slave" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="redis-bundle-1" id="redis-bundle-1" cached="false"/>
+                </resource>
+                <resource id="redis-bundle-docker-1" resource_agent="ocf::heartbeat:docker" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host01" id="1" cached="false"/>
+                </resource>
+                <resource id="redis-bundle-1" resource_agent="ocf::pacemaker:remote" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host01" id="1" cached="false"/>
+                </resource>
+            </replica>
+            <replica id="2">
+                <resource id="redis" resource_agent="ocf::heartbeat:redis" role="Slave" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="redis-bundle-2" id="redis-bundle-2" cached="false"/>
+                </resource>
+                <resource id="redis-bundle-docker-2" resource_agent="ocf::heartbeat:docker" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host03" id="3" cached="false"/>
+                </resource>
+                <resource id="redis-bundle-2" resource_agent="ocf::pacemaker:remote" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host03" id="3" cached="false"/>
+                </resource>
+            </replica>
+        </bundle>
+        <resource id="ip-172.18.2.7" resource_agent="ocf::heartbeat:IPaddr2" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="host03" id="3" cached="false"/>
+        </resource>
+        <resource id="ip-172.18.22.7" resource_agent="ocf::heartbeat:IPaddr2" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="host02" id="2" cached="false"/>
+        </resource>
+        <resource id="ip-172.16.20.99" resource_agent="ocf::heartbeat:IPaddr2" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="host03" id="3" cached="false"/>
+        </resource>
+        <resource id="ip-172.16.20.100" resource_agent="ocf::heartbeat:IPaddr2" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="host02" id="2" cached="false"/>
+        </resource>
+        <bundle id="haproxy-bundle" type="docker" image="containers-haproxy:pcmklatest" unique="false" managed="true" failed="false" >
+            <replica id="0">
+                <resource id="haproxy-bundle-docker-0" resource_agent="ocf::heartbeat:docker" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host01" id="1" cached="false"/>
+                </resource>
+            </replica>
+            <replica id="1">
+                <resource id="haproxy-bundle-docker-1" resource_agent="ocf::heartbeat:docker" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host03" id="3" cached="false"/>
+                </resource>
+            </replica>
+            <replica id="2">
+                <resource id="haproxy-bundle-docker-2" resource_agent="ocf::heartbeat:docker" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+                    <node name="host02" id="2" cached="false"/>
+                </resource>
+            </replica>
+        </bundle>
+        <resource id="ipmilan-for-host01" resource_agent="stonith:fence_ipmilan" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="host02" id="2" cached="false"/>
+        </resource>
+        <resource id="ipmilan-for-host02" resource_agent="stonith:fence_ipmilan" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="host03" id="3" cached="false"/>
+        </resource>
+        <resource id="ipmilan-for-host03" resource_agent="stonith:fence_ipmilan" role="Started" active="true" orphaned="false" blocked="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="host02" id="2" cached="false"/>
+        </resource>
+    </resources>
+    <node_attributes>
+        <node name="host01">
+            <attribute name="master-redis" value="1" />
+            <attribute name="redis-role" value="true" />
+        </node>
+        <node name="host02">
+            <attribute name="master-redis" value="1000" />
+            <attribute name="redis-role" value="true" />
+        </node>
+        <node name="host03">
+            <attribute name="master-redis" value="1" />
+            <attribute name="redis-role" value="true" />
+        </node>
+        <node name="redis-bundle-0">
+        </node>
+        <node name="redis-bundle-1">
+        </node>
+        <node name="redis-bundle-2">
+        </node>
+    </node_attributes>
+    <node_history>
+        <node name="host03">
+            <resource_history id="redis-bundle-docker-2" orphan="false" migration-threshold="1000000">
+                <operation_history call="349" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2365ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="349" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2365ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="412" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="94ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ip-172.18.2.7" orphan="false" migration-threshold="1000000">
+                <operation_history call="353" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2364ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="353" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2364ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="413" task="monitor" interval="10000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="54ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ip-172.16.20.99" orphan="false" migration-threshold="1000000">
+                <operation_history call="361" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2362ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="361" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2362ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="414" task="monitor" interval="10000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="55ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="haproxy-bundle-docker-1" orphan="false" migration-threshold="1000000">
+                <operation_history call="373" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2358ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="373" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2358ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="415" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="93ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ipmilan-for-host02" orphan="false" migration-threshold="1000000">
+                <operation_history call="410" task="start" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2541ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="417" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="2268ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="redis-bundle-2" orphan="false" migration-threshold="1000000">
+                <operation_history call="35" task="probe" last-rc-change="Thu Aug 23 02:27:58 2018" last-run="Thu Aug 23 02:27:58 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="35" task="probe" last-rc-change="Thu Aug 23 02:27:58 2018" last-run="Thu Aug 23 02:27:58 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="40" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:28:01 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="host01">
+            <resource_history id="redis-bundle-docker-1" orphan="false" migration-threshold="1000000">
+                <operation_history call="231" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="101ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="231" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="101ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="298" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="84ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="haproxy-bundle-docker-0" orphan="false" migration-threshold="1000000">
+                <operation_history call="255" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="99ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="255" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="99ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="299" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="84ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="redis-bundle-1" orphan="false" migration-threshold="1000000">
+                <operation_history call="39" task="probe" last-rc-change="Thu Aug 23 02:27:58 2018" last-run="Thu Aug 23 02:27:58 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="39" task="probe" last-rc-change="Thu Aug 23 02:27:58 2018" last-run="Thu Aug 23 02:27:58 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="46" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:28:01 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="redis-bundle-docker-0" orphan="false" migration-threshold="1000000">
+                <operation_history call="352" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1947ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="352" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1947ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="424" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="93ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ip-172.18.22.7" orphan="false" migration-threshold="1000000">
+                <operation_history call="368" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1943ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="368" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1943ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="425" task="monitor" interval="10000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="63ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ip-172.16.20.100" orphan="false" migration-threshold="1000000">
+                <operation_history call="376" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1941ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="376" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1941ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="426" task="monitor" interval="10000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="62ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="haproxy-bundle-docker-2" orphan="false" migration-threshold="1000000">
+                <operation_history call="388" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1938ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="388" task="probe" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="1938ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="427" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="92ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ipmilan-for-host01" orphan="false" migration-threshold="1000000">
+                <operation_history call="421" task="start" last-rc-change="Thu Aug 23 02:27:55 2018" last-run="Thu Aug 23 02:27:55 2018" exec-time="2119ms" queue-time="1ms" rc="0" rc_text="ok" />
+                <operation_history call="430" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="2475ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="ipmilan-for-host03" orphan="false" migration-threshold="1000000">
+                <operation_history call="422" task="start" last-rc-change="Thu Aug 23 02:27:57 2018" last-run="Thu Aug 23 02:27:57 2018" exec-time="223ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="431" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:27:58 2018" exec-time="2473ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+            <resource_history id="redis-bundle-0" orphan="false" migration-threshold="1000000">
+                <operation_history call="37" task="probe" last-rc-change="Thu Aug 23 02:27:58 2018" last-run="Thu Aug 23 02:27:58 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="37" task="probe" last-rc-change="Thu Aug 23 02:27:58 2018" last-run="Thu Aug 23 02:27:58 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="44" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:28:01 2018" exec-time="0ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="rabbitmq-bundle-2">
+            <resource_history id="rabbitmq" orphan="false" migration-threshold="1000000">
+                <operation_history call="15" task="start" last-rc-change="Thu Aug 23 05:14:14 2018" last-run="Thu Aug 23 05:14:14 2018" exec-time="29775ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="53" task="monitor" interval="10000ms" last-rc-change="Thu Aug 23 05:14:45 2018" exec-time="4460ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="rabbitmq-bundle-1">
+            <resource_history id="rabbitmq" orphan="false" migration-threshold="1000000">
+                <operation_history call="15" task="start" last-rc-change="Thu Aug 23 04:50:20 2018" last-run="Thu Aug 23 04:50:20 2018" exec-time="27398ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="53" task="monitor" interval="10000ms" last-rc-change="Thu Aug 23 04:50:48 2018" exec-time="4414ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="rabbitmq-bundle-0">
+            <resource_history id="rabbitmq" orphan="false" migration-threshold="1000000">
+                <operation_history call="15" task="start" last-rc-change="Thu Aug 23 04:50:08 2018" last-run="Thu Aug 23 04:50:08 2018" exec-time="11273ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="50" task="monitor" interval="10000ms" last-rc-change="Thu Aug 23 04:50:48 2018" exec-time="4353ms" queue-time="0ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="redis-bundle-1">
+            <resource_history id="redis" orphan="false" migration-threshold="1000000">
+                <operation_history call="4760" task="probe" last-rc-change="Thu Aug 23 02:28:01 2018" last-run="Thu Aug 23 02:28:01 2018" exec-time="1152ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="4760" task="probe" last-rc-change="Thu Aug 23 02:28:01 2018" last-run="Thu Aug 23 02:28:01 2018" exec-time="1152ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="4767" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:28:06 2018" exec-time="1095ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="4768" task="monitor" interval="45000ms" last-rc-change="Thu Aug 23 02:28:07 2018" exec-time="1094ms" queue-time="1055ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="redis-bundle-2">
+            <resource_history id="redis" orphan="false" migration-threshold="1000000">
+                <operation_history call="100813" task="probe" last-rc-change="Thu Aug 23 02:28:01 2018" last-run="Thu Aug 23 02:28:01 2018" exec-time="1105ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="100813" task="probe" last-rc-change="Thu Aug 23 02:28:01 2018" last-run="Thu Aug 23 02:28:01 2018" exec-time="1105ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="100820" task="monitor" interval="60000ms" last-rc-change="Thu Aug 23 02:28:06 2018" exec-time="1146ms" queue-time="0ms" rc="0" rc_text="ok" />
+                <operation_history call="100821" task="monitor" interval="45000ms" last-rc-change="Thu Aug 23 02:28:07 2018" exec-time="1133ms" queue-time="1106ms" rc="0" rc_text="ok" />
+            </resource_history>
+        </node>
+        <node name="redis-bundle-0">
+            <resource_history id="redis" orphan="false" migration-threshold="1000000">
+                <operation_history call="13614" task="probe" last-rc-change="Thu Aug 23 02:28:01 2018" last-run="Thu Aug 23 02:28:01 2018" exec-time="1400ms" queue-time="0ms" rc="8" rc_text="master" />
+                <operation_history call="13614" task="probe" last-rc-change="Thu Aug 23 02:28:01 2018" last-run="Thu Aug 23 02:28:01 2018" exec-time="1400ms" queue-time="0ms" rc="8" rc_text="master" />
+                <operation_history call="13626" task="monitor" interval="20000ms" last-rc-change="Thu Aug 23 02:28:07 2018" exec-time="1179ms" queue-time="0ms" rc="8" rc_text="master" />
+            </resource_history>
+        </node>
+    </node_history>
+    <tickets>
+    </tickets>
+    <bans>
+        <ban id="location-ipmilan-for-host03-host01--INFINITY" resource="ipmilan-for-host03" node=" host01" weight="-1000000" master_only="false" />
+        <ban id="location-ipmilan-for-host02-host01--INFINITY" resource="ipmilan-for-host02" node=" host01" weight="-1000000" master_only="false" />
+        <ban id="location-ipmilan-for-host01-host01--INFINITY" resource="ipmilan-for-host01" node=" host01" weight="-1000000" master_only="false" />
+    </bans>
+</crm_mon>

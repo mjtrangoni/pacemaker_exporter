@@ -39,18 +39,20 @@ Note: Please run it as *root* user, otherwise `crm_mon` will be failing.
 
 This exporter run `crm_mon -X`, and parse its XML output.
 
-|   XML element   |     Status      | Default |
-|:---------------:|:---------------:| :------:|
-| summary         | implemented     | enabled |
-| nodes           | implemented     | enabled |
-| node_attributes | implemented     | enabled |
-| node_history    | not implemented |         |
-| resources       | implemented     | enabled |
-| resources/group | implemented     | enabled |
-| resources/clone | not implemented |         |
-| tickets         | not implemented |         |
-| bans            | not implemented |         |
-| failures        | implemented     | enabled |
+|   XML element    |     Status      | Default |
+|:----------------:|:---------------:| :------:|
+| summary          | implemented     | enabled |
+| nodes            | implemented     | enabled |
+| node_attributes  | implemented     | enabled |
+| node_history     | not implemented |         |
+| resources        | implemented     | enabled |
+| resources/bundle | not implemented |         |
+| resources/group  | implemented     | enabled |
+| resources/group  | implemented     | enabled |
+| resources/clone  | not implemented |         |
+| tickets          | not implemented |         |
+| bans             | not implemented |         |
+| failures         | implemented     | enabled |
 
 ## Dashboards
 
