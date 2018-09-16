@@ -23,7 +23,7 @@ import (
 )
 
 var (
-	crmMonElemEnabled = kingpin.Flag("collector.crm_mon.elements-enabled", "Pacemaker `crm_mon` XML elements that will be exported.").Default("summary,nodes,node_attributes,resources,resources_group,failures").String()
+	crmMonElemEnabled = kingpin.Flag("collector.crm_mon.elements-enabled", "Pacemaker `crm_mon` XML elements that will be exported.").Default("summary,nodes,node_attributes,resources,resources_group,failures,bans").String()
 )
 
 type crmMonCollector struct {
@@ -68,6 +68,8 @@ type crmMonCollector struct {
 	crmMonResourceGroupRunningOn      *prometheus.Desc
 	crmMonFailuresCount               *prometheus.Desc
 	crmMonFailureDescription          *prometheus.Desc
+	crmMonBansCount                   *prometheus.Desc
+	crmMonBanDescription              *prometheus.Desc
 }
 
 func init() {
@@ -288,6 +290,17 @@ func NewCrmMonCollector() (Collector, error) {
 			prometheus.BuildFQName(namespace, "failure", "description"),
 			"Metric with a constant '1' value labeled by the failure description.",
 			[]string{"node", "op_key", "status", "task"}, nil,
+		),
+		// Bans metrics
+		crmMonBansCount: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "bans", "count"),
+			"Cluster bans count.",
+			[]string{"name"}, nil,
+		),
+		crmMonBanDescription: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "bans", "description"),
+			"Metric with a constant '1' value labeled by the ban description.",
+			[]string{"id", "resource", "node", "weight", "master_only"}, nil,
 		),
 	}, nil
 }

@@ -20,8 +20,9 @@ import (
 )
 
 const (
-	testCrmStatusOk     = "fixtures/crm_status.xml"
-	testCrmStatusFailed = "fixtures/crm_status_failed.xml"
+	testCrmStatusOk       = "fixtures/crm_status.xml"
+	testCrmStatusDockerOk = "fixtures/crm_status_docker.xml"
+	testCrmStatusFailed   = "fixtures/crm_status_failed.xml"
 )
 
 func TestParseCrmMonXML(t *testing.T) {
@@ -59,6 +60,23 @@ func TestParseCrmMonXML(t *testing.T) {
 		}
 	}
 
+}
+
+func TestParseCrmMonXMLDocker(t *testing.T) {
+	dataByte, err := ioutil.ReadFile(testCrmStatusDockerOk)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dataStr, err := parseCrmMonXML(dataByte)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if dataStr.Bans.Ban[0].Node != " host01" {
+		t.Fatalf("Failure name  : %v!=host01",
+			dataStr.Bans.Ban[0].Node)
+	}
 }
 
 func TestParseCrmMonXMLFailed(t *testing.T) {

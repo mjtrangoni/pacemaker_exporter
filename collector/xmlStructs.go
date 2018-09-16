@@ -25,6 +25,7 @@ type CrmMonStruct struct {
 	NodeAttributes NodeAttrStruct    `xml:"node_attributes"`
 	NodeHistory    NodeHistoryStruct `xml:"node_history"`
 	Failures       FailuresStruct    `xml:"failures"`
+	Bans           BansStruct        `xml:"bans"`
 }
 
 // SummaryStruct struct stores the crm_mon XML summary information
@@ -151,6 +152,17 @@ type FailuresStruct struct {
 		Status     string `xml:"status,attr"`
 		Task       string `xml:"task,attr"`
 	} `xml:"failure"`
+}
+
+// BansStruct struct stores the crm_mon XML bans information
+type BansStruct struct {
+	Ban []struct {
+		ID         string `xml:"id,attr"`
+		Resource   string `xml:"resource,attr"`
+		Node       string `xml:"node,attr"`
+		Weight     string `xml:"weight,attr"`
+		MasterOnly string `xml:"master_only,attr"`
+	} `xml:"ban"`
 }
 
 // ResourceStruct struct stores the crm_mon XML resource information

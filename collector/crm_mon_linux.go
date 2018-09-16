@@ -113,6 +113,13 @@ func (c *crmMonCollector) getCrmMonInfo(ch chan<- prometheus.Metric) error {
 		}
 	}
 
+	if stringInSlice("bans", elemEnabledSlice) {
+		err = c.exposeBans(ch, crmMonStruct)
+		if err != nil {
+			log.Errorln(err)
+		}
+	}
+
 	return nil
 }
 
@@ -495,6 +502,20 @@ func (c *crmMonCollector) exposeFailures(ch chan<- prometheus.Metric, crmMonStru
 		ch <- prometheus.MustNewConstMetric(c.crmMonFailureDescription,
 			prometheus.GaugeValue, 1.0,
 			failure.Node, failure.OpKey, failure.Status, failure.Task)
+	}
+	return nil
+}
+
+// expose Bans metrics
+func (c *crmMonCollector) exposeBans(ch chan<- prometheus.Metric, crmMonStruct CrmMonStruct) error {
+	ch <- prometheus.MustNewConstMetric(c.crmMonBansCount,
+		prometheus.GaugeValue, float64(len(crmMonStruct.Bans.Ban)),
+		crmMonStruct.Summary.CurrentDC.Name)
+
+	for _, ban := range crmMonStruct.Bans.Ban {
+		ch <- prometheus.MustNewConstMetric(c.crmMonBanDescription,
+			prometheus.GaugeValue, 1.0,
+			ban.ID, ban.Resource, ban.Node, ban.Weight, ban.MasterOnly)
 	}
 	return nil
 }
