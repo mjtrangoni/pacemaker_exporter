@@ -346,66 +346,66 @@ func (c *crmMonCollector) exposeNodeAttributes(ch chan<- prometheus.Metric, node
 
 // expose Resources metrics
 func (c *crmMonCollector) exposeResources(ch chan<- prometheus.Metric, resourcesStruct ResourcesStruct) error {
-	for _, node := range resourcesStruct.Resource {
-		for _, nodeName := range node.Node {
-			if node.Active {
+	for _, resource := range resourcesStruct.Resource {
+		for _, nodeName := range resource.Node {
+			if resource.Active {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceActive,
-					prometheus.GaugeValue, 1.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 1.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			} else {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceActive,
-					prometheus.GaugeValue, 0.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 0.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			}
-			if node.Orphaned {
+			if resource.Orphaned {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceOrphaned,
-					prometheus.GaugeValue, 1.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 1.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			} else {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceOrphaned,
-					prometheus.GaugeValue, 0.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 0.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			}
-			if node.Blocked {
+			if resource.Blocked {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceBlocked,
-					prometheus.GaugeValue, 1.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 1.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			} else {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceBlocked,
-					prometheus.GaugeValue, 0.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 0.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			}
-			if node.Managed {
+			if resource.Managed {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceManaged,
-					prometheus.GaugeValue, 1.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 1.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			} else {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceManaged,
-					prometheus.GaugeValue, 0.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 0.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			}
-			if node.Failed {
+			if resource.Failed {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceFailed,
-					prometheus.GaugeValue, 1.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 1.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			} else {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceFailed,
-					prometheus.GaugeValue, 0.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 0.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			}
-			if node.FailureIgnored {
+			if resource.FailureIgnored {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceFailureIgnored,
-					prometheus.GaugeValue, 1.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 1.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			} else {
 				ch <- prometheus.MustNewConstMetric(c.crmMonResourceFailureIgnored,
-					prometheus.GaugeValue, 0.0, node.ID, nodeName.Name,
-					node.ResourceAgent, node.Role, node.TargetRole)
+					prometheus.GaugeValue, 0.0, resource.ID, nodeName.Name,
+					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			}
 		}
 		ch <- prometheus.MustNewConstMetric(c.crmMonResourceRunningOn,
-			prometheus.GaugeValue, node.NodesRunningOn, node.ID,
-			node.ResourceAgent, node.Role, node.TargetRole)
+                       prometheus.GaugeValue, resource.NodesRunningOn, resource.ID,
+                       resource.ResourceAgent, resource.Role, resource.TargetRole)
 	}
 	return nil
 }
@@ -415,78 +415,78 @@ func (c *crmMonCollector) exposeResourcesGroup(ch chan<- prometheus.Metric, reso
 	for _, group := range resourcesStruct.Group {
 		ch <- prometheus.MustNewConstMetric(c.crmMonResourcesGroup,
 			prometheus.GaugeValue, group.NumberResources, group.ID)
-		for _, node := range group.Resource {
-			for _, nodeName := range node.Node {
-				if node.Active {
+		for _, resource := range group.Resource {
+			for _, nodeName := range resource.Node {
+				if resource.Active {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupActive,
-						prometheus.GaugeValue, 1.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 1.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				} else {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupActive,
-						prometheus.GaugeValue, 0.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 0.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				}
-				if node.Orphaned {
+				if resource.Orphaned {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupOrphaned,
-						prometheus.GaugeValue, 1.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 1.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				} else {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupOrphaned,
-						prometheus.GaugeValue, 0.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 0.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				}
-				if node.Blocked {
+				if resource.Blocked {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupBlocked,
-						prometheus.GaugeValue, 1.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 1.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				} else {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupBlocked,
-						prometheus.GaugeValue, 0.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 0.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				}
-				if node.Managed {
+				if resource.Managed {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupManaged,
-						prometheus.GaugeValue, 1.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 1.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				} else {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupManaged,
-						prometheus.GaugeValue, 0.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 0.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				}
-				if node.Failed {
+				if resource.Failed {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupFailed,
-						prometheus.GaugeValue, 1.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 1.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				} else {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupFailed,
-						prometheus.GaugeValue, 0.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 0.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				}
-				if node.FailureIgnored {
+				if resource.FailureIgnored {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupFailureIgnored,
-						prometheus.GaugeValue, 1.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 1.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				} else {
 					ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupFailureIgnored,
-						prometheus.GaugeValue, 0.0, node.ID, group.ID,
-						nodeName.Name, node.ResourceAgent, node.Role,
-						node.TargetRole)
+						prometheus.GaugeValue, 0.0, resource.ID, group.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
 				}
 			}
 			ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupRunningOn,
-				prometheus.GaugeValue, node.NodesRunningOn, node.ID, group.ID,
-				node.ResourceAgent, node.Role, node.TargetRole)
+                               prometheus.GaugeValue, resource.NodesRunningOn, resource.ID, group.ID,
+                               resource.ResourceAgent, resource.Role, resource.TargetRole)
 		}
 	}
 	return nil
