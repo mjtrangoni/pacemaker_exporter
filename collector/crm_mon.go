@@ -23,7 +23,7 @@ import (
 )
 
 var (
-	crmMonElemEnabled = kingpin.Flag("collector.crm_mon.elements-enabled", "Pacemaker `crm_mon` XML elements that will be exported.").Default("summary,nodes,node_attributes,resources,resources_group,failures,bans").String()
+	crmMonElemEnabled = kingpin.Flag("collector.crm_mon.elements-enabled", "Pacemaker `crm_mon` XML elements that will be exported.").Default("summary,nodes,node_attributes,clones,resources,resources_group,failures,bans").String()
 )
 
 type crmMonCollector struct {
@@ -64,6 +64,16 @@ type crmMonCollector struct {
 	crmMonResourceGroupManaged        *prometheus.Desc
 	crmMonResourceGroupFailed         *prometheus.Desc
 	crmMonResourceGroupFailureIgnored *prometheus.Desc
+	crmMonResourceCloneMultistate     *prometheus.Desc
+	crmMonResourceClonePromoted       *prometheus.Desc
+	crmMonResourceCloneActive         *prometheus.Desc
+	crmMonResourceCloneOrphaned       *prometheus.Desc
+	crmMonResourceCloneBlocked        *prometheus.Desc
+	crmMonResourceCloneManaged        *prometheus.Desc
+	crmMonResourceCloneFailed         *prometheus.Desc
+	crmMonResourceCloneFailureIgnored *prometheus.Desc
+	crmMonResourceCloneNumActive      *prometheus.Desc
+	crmMonResourceCloneNumPromoted    *prometheus.Desc
 	crmMonFailuresCount               *prometheus.Desc
 	crmMonFailureDescription          *prometheus.Desc
 	crmMonBansCount                   *prometheus.Desc
@@ -267,6 +277,57 @@ func NewCrmMonCollector() (Collector, error) {
 			"Resource failure ignored.",
 			[]string{"id", "group", "node_name", "resource_agent", "role", "target_role"}, nil,
 		),
+
+		// Node Resources Clone metrics
+		crmMonResourceCloneMultistate: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_multistate"),
+			"Resource is a multi-state one.",
+			[]string{"clone_id"}, nil,
+		),
+		crmMonResourceCloneNumActive: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "num_active"),
+			"Number of running clone instances",
+			[]string{"clone_id"}, nil,
+		),
+		crmMonResourceCloneNumPromoted: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "num_promoted"),
+			"Number of promoted clone instances",
+			[]string{"clone_id"}, nil,
+		),
+		crmMonResourceClonePromoted: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_promoted"),
+			"Resource is promoted.",
+			[]string{"id", "clone_id", "node_name", "resource_agent", "role", "target_role"}, nil,
+		),
+		crmMonResourceCloneActive: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_active"),
+			"Resource is active.",
+			[]string{"id", "clone_id", "node_name", "resource_agent", "role", "target_role"}, nil,
+		),
+		crmMonResourceCloneOrphaned: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_orphaned"),
+			"Resource is orphaned.",
+			[]string{"id", "clone_id", "node_name", "resource_agent", "role", "target_role"}, nil,
+		),
+		crmMonResourceCloneBlocked: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_blocked"),
+			"Resource is blocked.",
+			[]string{"id", "clone_id", "node_name", "resource_agent", "role", "target_role"}, nil,
+		),
+		crmMonResourceCloneManaged: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_managed"),
+			"Resource is managed.",
+			[]string{"id", "clone_id", "node_name", "resource_agent", "role", "target_role"}, nil,
+		),
+		crmMonResourceCloneFailed: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_failed"),
+			"Resource is failed.",
+			[]string{"id", "clone_id", "node_name", "resource_agent", "role", "target_role"}, nil,
+		),
+		crmMonResourceCloneFailureIgnored: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, "clone", "resource_failure_ignored"),
+			"Resource failure ignored.",
+			[]string{"id", "clone_id", "node_name", "resource_agent", "role", "target_role"}, nil,
 		),
 
 		// Failures metrics

@@ -92,6 +92,13 @@ func (c *crmMonCollector) getCrmMonInfo(ch chan<- prometheus.Metric) error {
 	}
 
 	// Resources section metrics
+	if stringInSlice("clones", elemEnabledSlice) {
+		err = c.exposeResourcesClone(ch, crmMonStruct.Resources)
+		if err != nil {
+			log.Errorln(err)
+		}
+	}
+
 	if stringInSlice("resources", elemEnabledSlice) {
 		err = c.exposeResources(ch, crmMonStruct.Resources)
 		if err != nil {
@@ -481,6 +488,113 @@ func (c *crmMonCollector) exposeResourcesGroup(ch chan<- prometheus.Metric, reso
 						resource.TargetRole)
 				}
 			}
+		}
+	}
+	return nil
+}
+
+// expose Resources by Clone metrics
+func (c *crmMonCollector) exposeResourcesClone(ch chan<- prometheus.Metric, resourcesStruct ResourcesStruct) error {
+	for _, clone := range resourcesStruct.Clone {
+		numActive := 0
+		numPromoted := 0
+		if clone.MultiState {
+			ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneMultistate,
+				prometheus.GaugeValue, 1.0, clone.ID)
+		} else {
+			ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneMultistate,
+				prometheus.GaugeValue, 0.0, clone.ID)
+		}
+		for _, resource := range clone.Resource {
+			for _, nodeName := range resource.Node {
+				if clone.MultiState {
+					if resource.Role == "Master" {
+						ch <- prometheus.MustNewConstMetric(c.crmMonResourceClonePromoted,
+							prometheus.GaugeValue, 1.0, resource.ID, clone.ID,
+							nodeName.Name, resource.ResourceAgent, resource.Role,
+							resource.TargetRole)
+						numPromoted++
+					} else {
+						ch <- prometheus.MustNewConstMetric(c.crmMonResourceClonePromoted,
+							prometheus.GaugeValue, 0.0, resource.ID, clone.ID,
+							nodeName.Name, resource.ResourceAgent, resource.Role,
+							resource.TargetRole)
+					}
+				}
+				if resource.Active {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneActive,
+						prometheus.GaugeValue, 1.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+					numActive++
+				} else {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneActive,
+						prometheus.GaugeValue, 0.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				}
+				if resource.Orphaned {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneOrphaned,
+						prometheus.GaugeValue, 1.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				} else {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneOrphaned,
+						prometheus.GaugeValue, 0.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				}
+				if resource.Blocked {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneBlocked,
+						prometheus.GaugeValue, 1.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				} else {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneBlocked,
+						prometheus.GaugeValue, 0.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				}
+				if resource.Managed {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneManaged,
+						prometheus.GaugeValue, 1.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				} else {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneManaged,
+						prometheus.GaugeValue, 0.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				}
+				if resource.Failed {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneFailed,
+						prometheus.GaugeValue, 1.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				} else {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneFailed,
+						prometheus.GaugeValue, 0.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				}
+				if resource.FailureIgnored {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneFailureIgnored,
+						prometheus.GaugeValue, 1.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				} else {
+					ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneFailureIgnored,
+						prometheus.GaugeValue, 0.0, resource.ID, clone.ID,
+						nodeName.Name, resource.ResourceAgent, resource.Role,
+						resource.TargetRole)
+				}
+			}
+		}
+		ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneNumActive,
+			prometheus.GaugeValue, float64(numActive), clone.ID)
+		if clone.MultiState {
+			ch <- prometheus.MustNewConstMetric(c.crmMonResourceCloneNumPromoted,
+				prometheus.GaugeValue, float64(numPromoted), clone.ID)
 		}
 	}
 	return nil
