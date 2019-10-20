@@ -403,9 +403,6 @@ func (c *crmMonCollector) exposeResources(ch chan<- prometheus.Metric, resources
 					resource.ResourceAgent, resource.Role, resource.TargetRole)
 			}
 		}
-		ch <- prometheus.MustNewConstMetric(c.crmMonResourceRunningOn,
-                       prometheus.GaugeValue, resource.NodesRunningOn, resource.ID,
-                       resource.ResourceAgent, resource.Role, resource.TargetRole)
 	}
 	return nil
 }
@@ -484,9 +481,6 @@ func (c *crmMonCollector) exposeResourcesGroup(ch chan<- prometheus.Metric, reso
 						resource.TargetRole)
 				}
 			}
-			ch <- prometheus.MustNewConstMetric(c.crmMonResourceGroupRunningOn,
-                               prometheus.GaugeValue, resource.NodesRunningOn, resource.ID, group.ID,
-                               resource.ResourceAgent, resource.Role, resource.TargetRole)
 		}
 	}
 	return nil

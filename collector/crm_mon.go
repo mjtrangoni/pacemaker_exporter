@@ -57,7 +57,6 @@ type crmMonCollector struct {
 	crmMonResourceManaged             *prometheus.Desc
 	crmMonResourceFailed              *prometheus.Desc
 	crmMonResourceFailureIgnored      *prometheus.Desc
-	crmMonResourceRunningOn           *prometheus.Desc
 	crmMonResourcesGroup              *prometheus.Desc
 	crmMonResourceGroupActive         *prometheus.Desc
 	crmMonResourceGroupOrphaned       *prometheus.Desc
@@ -65,7 +64,6 @@ type crmMonCollector struct {
 	crmMonResourceGroupManaged        *prometheus.Desc
 	crmMonResourceGroupFailed         *prometheus.Desc
 	crmMonResourceGroupFailureIgnored *prometheus.Desc
-	crmMonResourceGroupRunningOn      *prometheus.Desc
 	crmMonFailuresCount               *prometheus.Desc
 	crmMonFailureDescription          *prometheus.Desc
 	crmMonBansCount                   *prometheus.Desc
@@ -232,11 +230,6 @@ func NewCrmMonCollector() (Collector, error) {
 			"Resource failure ignored.",
 			[]string{"id", "node_name", "resource_agent", "role", "target_role"}, nil,
 		),
-		crmMonResourceRunningOn: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, "resource", "nodes_running_on"),
-			"Number of nodes the resource is running on.",
-			[]string{"id", "resource_agent", "role", "target_role"}, nil,
-		),
 
 		// Node Resources Group metrics
 		crmMonResourcesGroup: prometheus.NewDesc(
@@ -274,10 +267,6 @@ func NewCrmMonCollector() (Collector, error) {
 			"Resource failure ignored.",
 			[]string{"id", "group", "node_name", "resource_agent", "role", "target_role"}, nil,
 		),
-		crmMonResourceGroupRunningOn: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, "group", "resource_nodes_running_on"),
-			"Number of nodes the resource is running on.",
-			[]string{"id", "group", "resource_agent", "role", "target_role"}, nil,
 		),
 
 		// Failures metrics

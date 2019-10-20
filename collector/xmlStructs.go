@@ -167,17 +167,16 @@ type BansStruct struct {
 
 // ResourceStruct struct stores the crm_mon XML resource information
 type ResourceStruct struct {
-	ID             string  `xml:"id,attr"`
-	ResourceAgent  string  `xml:"resource_agent,attr"`
-	Role           string  `xml:"role,attr"`
-	TargetRole     string  `xml:"target_role,attr"`
-	Active         bool    `xml:"active,attr"`
-	Orphaned       bool    `xml:"orphaned,attr"`
-	Blocked        bool    `xml:"blocked,attr"`
-	Managed        bool    `xml:"managed,attr"`
-	Failed         bool    `xml:"failed,attr"`
-	FailureIgnored bool    `xml:"failure_ignored,attr"`
-	NodesRunningOn float64 `xml:"nodes_running_on,attr"`
+	ID             string `xml:"id,attr"`
+	ResourceAgent  string `xml:"resource_agent,attr"`
+	Role           string `xml:"role,attr"`
+	TargetRole     string `xml:"target_role,attr"`
+	Active         bool   `xml:"active,attr"`
+	Orphaned       bool   `xml:"orphaned,attr"`
+	Blocked        bool   `xml:"blocked,attr"`
+	Managed        bool   `xml:"managed,attr"`
+	Failed         bool   `xml:"failed,attr"`
+	FailureIgnored bool   `xml:"failure_ignored,attr"`
 	Node           []struct {
 		Name   string  `xml:"name,attr"`
 		ID     float64 `xml:"id,attr"`
