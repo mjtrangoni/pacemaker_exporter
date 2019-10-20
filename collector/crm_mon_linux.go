@@ -53,7 +53,7 @@ func parseCrmMonXML(data []byte) (CrmMonStruct, error) {
 
 // getCrmMonInfo returns crm_mon information
 func (c *crmMonCollector) getCrmMonInfo(ch chan<- prometheus.Metric) error {
-	outBytes, err := crmMonExec("-X")
+	outBytes, err := crmMonExec("-Xr")
 	if err != nil {
 		log.Errorln(err)
 		return err
@@ -123,11 +123,11 @@ func (c *crmMonCollector) getCrmMonInfo(ch chan<- prometheus.Metric) error {
 	return nil
 }
 
-// HTMLHandler returns crm_mon -w
+// HTMLHandler returns crm_mon -wr
 func HTMLHandler(w http.ResponseWriter, r *http.Request) {
-	outBytes, err := crmMonExec("-w")
+	outBytes, err := crmMonExec("-wr")
 	if err != nil {
-		log.Warnln("Error running `crm_mon -w`", err)
+		log.Warnln("Error running `crm_mon -wr`", err)
 		w.WriteHeader(http.StatusServiceUnavailable)
 		_, err = w.Write([]byte(fmt.Sprintf("Couldn't create %s", err)))
 		if err != nil {
@@ -143,11 +143,11 @@ func HTMLHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// XMLHandler returns crm_mon -X
+// XMLHandler returns crm_mon -Xr
 func XMLHandler(w http.ResponseWriter, r *http.Request) {
-	outBytes, err := crmMonExec("-X")
+	outBytes, err := crmMonExec("-Xr")
 	if err != nil {
-		log.Warnln("Error running `crm_mon -X`", err)
+		log.Warnln("Error running `crm_mon -Xr`", err)
 		w.WriteHeader(http.StatusServiceUnavailable)
 		_, err = w.Write([]byte(fmt.Sprintf("Couldn't create %s", err)))
 		if err != nil {
