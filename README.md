@@ -48,7 +48,7 @@ This exporter run `crm_mon -X`, and parse its XML output.
 | resources        | implemented     | enabled |
 | resources/bundle | not implemented |         |
 | resources/group  | implemented     | enabled |
-| resources/clone  | not implemented |         |
+| resources/clone  | implemented     | enabled |
 | tickets          | not implemented |         |
 | bans             | implemented     | enabled |
 | failures         | implemented     | enabled |
