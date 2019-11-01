@@ -37,7 +37,7 @@ Note: Please run it as *root* user, otherwise `crm_mon` will be failing.
 
 ## What's exported?
 
-This exporter run `crm_mon -X`, and parse its XML output.
+This exporter run `crm_mon -Xr`, and parse its XML output.
 
 |   XML element    |     Status      | Default |
 |:----------------:|:---------------:| :------:|
