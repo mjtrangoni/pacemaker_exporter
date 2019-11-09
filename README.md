@@ -28,6 +28,7 @@ $ make
 $ ./pacemaker_exporter <flags>
 ```
 Note: Please run it as *root* user, otherwise `crm_mon` will be failing.
+Alternatively, add user you run it as into haclient group.
 
 ## Endpoints
 
