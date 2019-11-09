@@ -23,7 +23,9 @@ import (
 )
 
 var (
-	crmMonElemEnabled = kingpin.Flag("collector.crm_mon.elements-enabled", "Pacemaker `crm_mon` XML elements that will be exported.").Default("summary,nodes,node_attributes,clones,resources,resources_group,failures,bans").String()
+	crmMonElemEnabled = kingpin.Flag("collector.crm_mon.elements-enabled",
+		"Pacemaker `crm_mon` XML elements that will be exported.").Default(
+		"summary,nodes,node_attributes,clones,resources,resources_group,failures,bans").String()
 )
 
 type crmMonCollector struct {
@@ -362,5 +364,6 @@ func (c *crmMonCollector) Update(ch chan<- prometheus.Metric) error {
 	if err != nil {
 		return fmt.Errorf("couldn't get crm_mon information: %s", err)
 	}
+
 	return nil
 }

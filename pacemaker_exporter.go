@@ -17,7 +17,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	_ "net/http/pprof"
 
 	"github.com/mjtrangoni/pacemaker_exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
@@ -33,6 +32,7 @@ func init() {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	var num int
+
 	filters := r.URL.Query()["collect[]"]
 	log.Debugln("collect query:", filters)
 
@@ -40,19 +40,25 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Warnln("Couldn't create", err)
 		w.WriteHeader(http.StatusBadRequest)
+
 		num, err = w.Write([]byte(fmt.Sprintf("Couldn't create %s", err)))
+
 		if err != nil {
 			log.Fatal(num, err)
 		}
+
 		return
 	}
 
 	registry := prometheus.NewRegistry()
 	err = registry.Register(nc)
+
 	if err != nil {
 		log.Errorln("Couldn't register collector:", err)
 		w.WriteHeader(http.StatusInternalServerError)
+
 		num, err = w.Write([]byte(fmt.Sprintf("Couldn't register collector: %s", err)))
+
 		if err != nil {
 			log.Fatal(num, err)
 		}
@@ -73,12 +79,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	var (
-		listenAddress = kingpin.Flag("web.listen-address", "Address on which to expose metrics and web interface.").Default(":9356").String()
-		metricsPath   = kingpin.Flag("web.telemetry-path", "Path under which to expose metrics.").Default("/metrics").String()
-		htmlPath      = kingpin.Flag("web.html-path", "Path under which to expose crm_mon html output.").Default("/html").String()
-		xmlPath       = kingpin.Flag("web.xml-path", "Path under which to expose crm_mon xml output.").Default("/xml").String()
-		num           int
-		err           error
+		listenAddress = kingpin.Flag("web.listen-address",
+			"Address on which to expose metrics and web interface.").Default(":9356").String()
+		metricsPath = kingpin.Flag("web.telemetry-path",
+			"Path under which to expose metrics.").Default("/metrics").String()
+		htmlPath = kingpin.Flag("web.html-path",
+			"Path under which to expose crm_mon html output.").Default("/html").String()
+		xmlPath = kingpin.Flag("web.xml-path",
+			"Path under which to expose crm_mon xml output.").Default("/xml").String()
+		num int
+		err error
 	)
 
 	log.AddFlags(kingpin.CommandLine)
@@ -94,7 +104,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Couldn't create collector: %s", err)
 	}
+
 	log.Infof("Enabled collectors:")
+
 	for n := range nc.Collectors {
 		log.Infof(" - %s", n)
 	}
@@ -118,7 +130,9 @@ func main() {
 	})
 
 	log.Infoln("Listening on", *listenAddress)
+
 	err = http.ListenAndServe(*listenAddress, nil)
+
 	if err != nil {
 		log.Fatal(err)
 	}

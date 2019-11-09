@@ -45,7 +45,7 @@ var (
 
 const (
 	defaultEnabled = true
-	//defaultDisabled = false
+	// defaultDisabled = false
 )
 
 var (
@@ -79,28 +79,35 @@ type PacemakerCollector struct {
 // NewPacemakerCollector creates a new PacemakerCollector
 func NewPacemakerCollector(filters ...string) (*PacemakerCollector, error) {
 	f := make(map[string]bool)
+
 	for _, filter := range filters {
 		enabled, exist := collectorState[filter]
 		if !exist {
 			return nil, fmt.Errorf("missing collector: %s", filter)
 		}
+
 		if !*enabled {
 			return nil, fmt.Errorf("disabled collector: %s", filter)
 		}
+
 		f[filter] = true
 	}
+
 	collectors := make(map[string]Collector)
+
 	for key, enabled := range collectorState {
 		if *enabled {
 			collector, err := factories[key]()
 			if err != nil {
 				return nil, err
 			}
+
 			if len(f) == 0 || f[key] {
 				collectors[key] = collector
 			}
 		}
 	}
+
 	return &PacemakerCollector{Collectors: collectors}, nil
 }
 
@@ -114,23 +121,27 @@ func (n PacemakerCollector) Describe(ch chan<- *prometheus.Desc) {
 func (n PacemakerCollector) Collect(ch chan<- prometheus.Metric) {
 	wg := sync.WaitGroup{}
 	wg.Add(len(n.Collectors))
+
 	for name, c := range n.Collectors {
 		go func(name string, c Collector) {
 			execute(name, c, ch)
 			wg.Done()
 		}(name, c)
 	}
+
 	wg.Wait()
 }
 
 func execute(name string, c Collector, ch chan<- prometheus.Metric) {
+	var success float64
+
 	begin := time.Now()
 	err := c.Update(ch)
 	duration := time.Since(begin)
-	var success float64
 
 	if err != nil {
 		log.Errorf("ERROR: %s collector failed after %fs: %s", name, duration.Seconds(), err)
+
 		success = 0
 	} else {
 		log.Debugf("OK: %s collector succeeded after %fs.", name, duration.Seconds())
